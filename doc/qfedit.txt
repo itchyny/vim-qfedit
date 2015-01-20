@@ -1,0 +1,39 @@
+*qfedit.txt*	Edit the quickfix list freely
+
+Version: 0.0
+Author: itchyny (https://github.com/itchyny)
+License: MIT License
+Repository: https://github.com/itchyny/vim-qfedit
+Last Change: 2015/01/20 10:56:34.
+
+CONTENTS					*qfedit-contents*
+
+Introduction				|qfedit-introduction|
+Options					|qfedit-options|
+Functions				|qfedit-functions|
+Examples				|qfedit-examples|
+Changelog				|qfedit-changelog|
+
+==============================================================================
+INTRODUCTION					*qfedit-introduction*
+This *qfedit* ( *vim-qfedit* *qfedit.vim* ) plugin enables you to edit the quickfix
+list freely as if it is a normal buffer. When you delete a line in the
+quickfix window, |qfedit| updates the quickfix list automatically. You can
+|d|elete, |y|ank, |p|aste, filter (|:g|/{pattern}/d, |:v|/{pattern}/d), |:sort| and |undo|
+the operations, whatever you can do in a normal buffer.
+
+------------------------------------------------------------------------------
+OPTIONS						*qfedit-options*
+
+g:qfedit_enable				*g:qfedit_enable*
+	When you set this variable to 0, you cannot edit the quickfix list.
+	The default value is 1.
+
+==============================================================================
+CHANGELOG					*qfedit-changelog*
+
+0.0	2014-01-20
+	- Initial commit.
+
+==============================================================================
+vim:tw=78:sw=4:ts=8:ft=help:norl:noet:
