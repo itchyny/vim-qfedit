@@ -4,7 +4,7 @@ Version: 0.1
 Author: itchyny (https://github.com/itchyny)
 License: MIT License
 Repository: https://github.com/itchyny/vim-qfedit
-Last Change: 2015/01/22 23:34:47.
+Last Change: 2015/01/22 23:56:00.
 
 CONTENTS					*qfedit-contents*
 
@@ -34,6 +34,7 @@ CHANGELOG					*qfedit-changelog*
 
 0.1	2014-01-22
 	- Improve the type character
+	- Set {action} of |setqflist()| to 'r'
 
 0.0	2014-01-20
 	- Initial commit.
