@@ -1,10 +1,10 @@
 *qfedit.txt*	Edit the quickfix list freely
 
-Version: 0.1
+Version: 0.2
 Author: itchyny (https://github.com/itchyny)
 License: MIT License
 Repository: https://github.com/itchyny/vim-qfedit
-Last Change: 2015/01/22 23:56:00.
+Last Change: 2015/03/13 13:41:57.
 
 CONTENTS					*qfedit-contents*
 
@@ -32,9 +32,12 @@ g:qfedit_enable				*g:qfedit_enable*
 ==============================================================================
 CHANGELOG					*qfedit-changelog*
 
+0.2	2014-03-13
+	- Fix the position of set cpo&vim.
+
 0.1	2014-01-22
-	- Improve the type character
-	- Set {action} of |setqflist()| to 'r'
+	- Improve the type character.
+	- Set {action} of |setqflist()| to 'r'.
 
 0.0	2014-01-20
 	- Initial commit.
