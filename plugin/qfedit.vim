@@ -2,16 +2,16 @@
 " Filename: plugin/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2015/01/15 13:50:25.
+" Last Change: 2015/03/10 17:05:03.
 " =============================================================================
-
-let s:save_cpo = &cpo
-set cpo&vim
 
 if exists('g:loaded_qfedit') || v:version < 700 || !exists('##TextChanged')
   finish
 endif
 let g:loaded_qfedit = 1
+
+let s:save_cpo = &cpo
+set cpo&vim
 
 augroup qfedit
   autocmd!
