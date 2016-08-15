@@ -2,7 +2,7 @@
 " Filename: autoload/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2016/08/16 08:37:11.
+" Last Change: 2016/08/16 08:48:52.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -83,7 +83,7 @@ function! qfedit#restore() abort
 endfunction
 
 function! qfedit#locationlist() abort
-  return get(b:, 'qflisttype', '') ==# 'location'
+  return get(get(getwininfo(win_getid()), 0, {}), 'loclist', 0)
 endfunction
 
 function! qfedit#setlocal() abort
