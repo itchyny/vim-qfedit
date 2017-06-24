@@ -2,7 +2,7 @@
 " Filename: autoload/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2017/06/24 20:21:54.
+" Last Change: 2017/06/24 20:41:34.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -12,7 +12,7 @@ function! qfedit#new() abort
   if &l:buftype !=# 'quickfix' || !get(g:, 'qfedit_enable', 1)
     return
   endif
-  let s:qfitems = qfedit#qfdict()
+  let b:qfitems = qfedit#qfdict()
   augroup qfedit
     autocmd TextChanged <buffer> call qfedit#change()
   augroup END
@@ -66,13 +66,13 @@ function! qfedit#change() abort
 endfunction
 
 function! qfedit#restore() abort
-  if !has_key(s:, 'qfitems')
-    let s:qfitems = {}
+  if !has_key(b:, 'qfitems')
+    let b:qfitems = {}
   endif
   let list = []
   for line in getline(1, '$')
-    if has_key(s:qfitems, line)
-      call add(list, s:qfitems[line])
+    if has_key(b:qfitems, line)
+      call add(list, b:qfitems[line])
     endif
   endfor
   if qfedit#locationlist()
