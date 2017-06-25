@@ -2,10 +2,10 @@
 " Filename: plugin/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2015/03/10 17:05:03.
+" Last Change: 2017/06/25 12:34:11.
 " =============================================================================
 
-if exists('g:loaded_qfedit') || v:version < 700 || !exists('##TextChanged')
+if exists('g:loaded_qfedit') || !exists('##TextChanged') || !has('patch-7.4.2215')
   finish
 endif
 let g:loaded_qfedit = 1
