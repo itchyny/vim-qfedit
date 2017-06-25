@@ -2,7 +2,7 @@
 " Filename: autoload/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2017/06/25 13:14:33.
+" Last Change: 2017/06/25 13:16:20.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -12,7 +12,7 @@ function! qfedit#new() abort
   if &l:buftype !=# 'quickfix' || !get(g:, 'qfedit_enable', 1)
     return
   endif
-  let b:qfitems = qfedit#qfdict()
+  let b:qfedit_items = qfedit#items()
   augroup qfedit
     autocmd TextChanged <buffer> call qfedit#change()
   augroup END
@@ -23,15 +23,15 @@ function! qfedit#new() abort
   call qfedit#setlocal()
 endfunction
 
-function! qfedit#qfdict() abort
-  let qfitems = {}
+function! qfedit#items() abort
+  let items = {}
   for item in qfedit#is_loclist() ? getloclist(0) : getqflist()
     let key = qfedit#line(item)
     if key !=# ''
-      let qfitems[key] = item
+      let items[key] = item
     endif
   endfor
-  return qfitems
+  return items
 endfunction
 
 function! qfedit#line(item) abort
@@ -80,13 +80,13 @@ function! qfedit#change() abort
 endfunction
 
 function! qfedit#restore() abort
-  if !has_key(b:, 'qfitems')
-    let b:qfitems = {}
+  if !has_key(b:, 'qfedit_items')
+    let b:qfedit_items = {}
   endif
   let list = []
   for line in getline(1, '$')
-    if has_key(b:qfitems, line)
-      call add(list, b:qfitems[line])
+    if has_key(b:qfedit_items, line)
+      call add(list, b:qfedit_items[line])
     endif
   endfor
   if qfedit#is_loclist()
