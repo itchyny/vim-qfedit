@@ -2,7 +2,7 @@
 " Filename: autoload/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2017/06/24 20:41:34.
+" Last Change: 2017/06/25 12:36:29.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -21,7 +21,7 @@ endfunction
 
 function! qfedit#qfdict() abort
   let qfitems = {}
-  for item in qfedit#locationlist() ? getloclist(0) : getqflist()
+  for item in qfedit#is_loclist() ? getloclist(0) : getqflist()
     let key = qfedit#line(item)
     if key !=# ''
       let qfitems[key] = item
@@ -75,14 +75,14 @@ function! qfedit#restore() abort
       call add(list, b:qfitems[line])
     endif
   endfor
-  if qfedit#locationlist()
+  if qfedit#is_loclist()
     call setloclist(0, list, 'r')
   else
     call setqflist(list, 'r')
   endif
 endfunction
 
-function! qfedit#locationlist() abort
+function! qfedit#is_loclist() abort
   return get(get(getwininfo(win_getid()), 0, {}), 'loclist', 0)
 endfunction
 
