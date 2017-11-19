@@ -92,7 +92,9 @@ function! qfedit#restore() abort
   if qfedit#is_loclist()
     call setloclist(0, list, 'r')
   else
+    let prev_title = getqflist({'title': 0})
     call setqflist(list, 'r')
+    call setqflist([], 'r', prev_title)
   endif
 endfunction
 
