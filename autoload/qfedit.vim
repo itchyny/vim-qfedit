@@ -2,7 +2,7 @@
 " Filename: autoload/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2017/06/25 13:16:20.
+" Last Change: 2017/11/21 21:57:20.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -61,6 +61,12 @@ function! qfedit#type(type, nr) abort
 endfunction
 
 function! qfedit#moved() abort
+  if !has_key(b:, 'qfedit_changedtick')
+    augroup qfedit-cursormoved
+      autocmd! * <buffer>
+    augroup END
+    return
+  endif
   if b:changedtick != b:qfedit_changedtick
     unlet! b:qfedit_changedtick
     call qfedit#change()
