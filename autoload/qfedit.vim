@@ -12,24 +12,28 @@ function! qfedit#new() abort
   if &l:buftype !=# 'quickfix' || !get(g:, 'qfedit_enable', 1)
     return
   endif
-  let b:qfedit_items = qfedit#items()
-  augroup qfedit
+  let b:qfedit_items = qfedit#items(qfedit#list())
+  augroup qfedit-textchanged
+    autocmd! * <buffer>
     autocmd TextChanged <buffer> call qfedit#change()
   augroup END
   let b:qfedit_changedtick = b:changedtick
   augroup qfedit-cursormoved
+    autocmd! * <buffer>
     autocmd CursorMoved <buffer> call qfedit#moved()
   augroup END
+  let b:qfedit_lastline = [line('$'), getline('$')]
   call qfedit#setlocal()
 endfunction
 
-function! qfedit#items() abort
+function! qfedit#list() abort
+  return qfedit#is_loclist() ? getloclist(0) : getqflist()
+endfunction
+
+function! qfedit#items(list) abort
   let items = {}
-  for item in qfedit#is_loclist() ? getloclist(0) : getqflist()
-    let key = qfedit#line(item)
-    if key !=# ''
-      let items[key] = item
-    endif
+  for item in a:list
+    let items[qfedit#line(item)] = item
   endfor
   return items
 endfunction
@@ -89,6 +93,11 @@ function! qfedit#restore() abort
   if !has_key(b:, 'qfedit_items')
     let b:qfedit_items = {}
   endif
+  if b:qfedit_lastline[0] < line('$')
+        \ && b:qfedit_lastline[1] ==# getline(b:qfedit_lastline[0])
+    call extend(b:qfedit_items,
+          \ qfedit#items(qfedit#list()[b:qfedit_lastline[0]:]))
+  endif
   let list = []
   for line in getline(1, '$')
     if has_key(b:qfedit_items, line)
@@ -102,6 +111,7 @@ function! qfedit#restore() abort
     call setqflist(list, 'r')
     call setqflist([], 'r', prev_title)
   endif
+  let b:qfedit_lastline = [line('$'), getline('$')]
 endfunction
 
 function! qfedit#is_loclist() abort
