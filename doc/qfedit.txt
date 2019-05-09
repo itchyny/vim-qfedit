@@ -1,10 +1,10 @@
 *qfedit.txt*	Edit the quickfix list freely
 
-Version: 0.3
+Version: 0.4
 Author: itchyny (https://github.com/itchyny)
 License: MIT License
 Repository: https://github.com/itchyny/vim-qfedit
-Last Change: 2017/06/25 13:58:00.
+Last Change: 2019/05/09 15:30:11.
 
 CONTENTS					*qfedit-contents*
 
@@ -31,6 +31,11 @@ g:qfedit_enable				*g:qfedit_enable*
 
 ==============================================================================
 CHANGELOG					*qfedit-changelog*
+
+0.4	2019-05-09
+	- Retain previous quickfix title
+	- Handle the contents update of quickfix window
+	- Fix bug for helpgrep
 
 0.3	2017-06-25
 	- Use getwininfo to detect location list.
