@@ -42,6 +42,8 @@ function! qfedit#line(item) abort
   let fname = bufname(a:item.bufnr)
   if a:item.type ==# "\1"
     let fname = fnamemodify(fname, ':t')
+  elseif fname =~ "^fugitive://"
+    let fname = fnamemodify(fname, ':t')[0:6]
   endif
   return  (a:item.bufnr ? fname : '') . '|' .
         \ (a:item.lnum  ? a:item.lnum           : '') .
