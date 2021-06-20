@@ -2,7 +2,7 @@
 " Filename: autoload/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2021/04/19 17:24:43.
+" Last Change: 2021/06/20 10:52:39.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -46,8 +46,11 @@ function! qfedit#line(item) abort
     let fname = fnamemodify(fname, ':t')[0:6]
   endif
   return ((a:item.bufnr ? fname : '') . '|' .
-        \ (a:item.lnum  ? a:item.lnum           : '') .
-        \ (a:item.col   ? ' col ' . a:item.col  : '') .
+        \ (a:item.lnum ? a:item.lnum : '') .
+        \ (get(a:item, 'end_lnum') ? '-' . a:item.end_lnum : '') .
+        \ (a:item.col ? ' col ' . a:item.col .
+        \ (get(a:item, 'end_col') && a:item.col != a:item.end_col ? '-' . a:item.end_col : '')
+        \ : '') .
         \ qfedit#type(a:item.type, a:item.nr) . '|' .
         \ substitute(a:item.text, '^[[:blank:]]*', ' ', ''))[:1023]
 endfunction
