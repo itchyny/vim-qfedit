@@ -2,7 +2,7 @@
 " Filename: autoload/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2021/08/29 15:10:03.
+" Last Change: 2021/08/29 15:20:07.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -39,11 +39,9 @@ function! qfedit#items(list) abort
 endfunction
 
 function! qfedit#line(item) abort
-  let fname = bufname(a:item.bufnr)
+  let fname = empty(get(a:item, 'module')) ? bufname(a:item.bufnr) : a:item.module
   if a:item.type ==# "\1"
     let fname = fnamemodify(fname, ':t')
-  elseif fname =~# "^fugitive://"
-    let fname = get(a:item, 'module', fnamemodify(fname, ':t')[:6])
   endif
   return ((a:item.bufnr ? fname : '') . '|' .
         \ (a:item.lnum ? a:item.lnum : '') .
