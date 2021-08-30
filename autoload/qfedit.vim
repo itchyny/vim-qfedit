@@ -45,7 +45,7 @@ function! qfedit#line(item) abort
   endif
   return ((a:item.bufnr ? fname : '') . '|' .
         \ (a:item.lnum ? a:item.lnum : '') .
-        \ (get(a:item, 'end_lnum') ? '-' . a:item.end_lnum : '') .
+        \ (get(a:item, 'end_lnum') && a:item.lnum != a:item.end_lnum ? '-' . a:item.end_lnum : '') .
         \ (a:item.col ? ' col ' . a:item.col .
         \ (get(a:item, 'end_col') && a:item.col != a:item.end_col ? '-' . a:item.end_col : '')
         \ : '') .
