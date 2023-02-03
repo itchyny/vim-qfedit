@@ -2,7 +2,7 @@
 " Filename: autoload/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2021/09/25 14:09:45.
+" Last Change: 2023/02/03 18:24:16.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -106,7 +106,7 @@ function! qfedit#restore() abort
           \ qfedit#items(qfedit#list()[b:qfedit_lastline[0]:]))
   endif
   let list = []
-  for line in getline(1, '$')
+  for line in map(getline(1, '$'), 'v:val[:1023]')
     if has_key(b:qfedit_items, line)
       call add(list, b:qfedit_items[line])
     endif
