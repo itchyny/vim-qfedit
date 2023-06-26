@@ -50,7 +50,9 @@ function! qfedit#line(item) abort
         \ (get(a:item, 'end_col') && a:item.col != a:item.end_col ? '-' . a:item.end_col : '')
         \ : '') .
         \ qfedit#type(a:item.type, a:item.nr) . '| ' .
-        \ substitute(substitute(a:item.text, '\v^%(\t| )+', '', ''), '\v\n%(\n|\t| )*', ' ', 'g'))[:1023]
+        \ (a:item.valid ? substitute(substitute(a:item.text, '\v^%(\t| )+', '', ''), '\v\n%(\n|\t| )*', ' ', 'g')
+        \ : a:item.text)
+        \ )[:1023]
 endfunction
 
 function! qfedit#type(type, nr) abort
