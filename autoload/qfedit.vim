@@ -2,7 +2,7 @@
 " Filename: autoload/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2023/02/03 18:24:16.
+" Last Change: 2024/02/20 14:53:39.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -12,7 +12,7 @@ function! qfedit#new() abort
   if &l:buftype !=# 'quickfix' || !get(g:, 'qfedit_enable', 1)
     return
   endif
-  let b:qfedit_items = qfedit#items(qfedit#list())
+  let b:qfedit_items = qfedit#items(qfedit#getlist())
   augroup qfedit-textchanged
     autocmd! * <buffer>
     autocmd TextChanged <buffer> call qfedit#change()
@@ -26,8 +26,20 @@ function! qfedit#new() abort
   call qfedit#setlocal()
 endfunction
 
-function! qfedit#list() abort
+function! qfedit#getlist() abort
   return qfedit#is_loclist() ? getloclist(0) : getqflist()
+endfunction
+
+function! qfedit#setlist(list) abort
+  if qfedit#is_loclist()
+    let title = getloclist(0, {'title': 0})
+    call setloclist(0, a:list, 'r')
+    call setloclist(0, [], 'r', title)
+  else
+    let title = getqflist({'title': 0})
+    call setqflist(a:list, 'r')
+    call setqflist([], 'r', title)
+  endif
 endfunction
 
 function! qfedit#items(list) abort
@@ -105,7 +117,7 @@ function! qfedit#restore() abort
   if b:qfedit_lastline[0] < line('$')
         \ && b:qfedit_lastline[1] ==# getline(b:qfedit_lastline[0])
     call extend(b:qfedit_items,
-          \ qfedit#items(qfedit#list()[b:qfedit_lastline[0]:]))
+          \ qfedit#items(qfedit#getlist()[b:qfedit_lastline[0]:]))
   endif
   let list = []
   for line in map(getline(1, '$'), 'v:val[:1023]')
@@ -113,13 +125,7 @@ function! qfedit#restore() abort
       call add(list, b:qfedit_items[line])
     endif
   endfor
-  if qfedit#is_loclist()
-    call setloclist(0, list, 'r')
-  else
-    let prev_title = getqflist({'title': 0})
-    call setqflist(list, 'r')
-    call setqflist([], 'r', prev_title)
-  endif
+  call qfedit#setlist(list)
   let b:qfedit_lastline = [line('$'), getline('$')]
 endfunction
 
