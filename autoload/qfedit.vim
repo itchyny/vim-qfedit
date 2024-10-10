@@ -2,7 +2,7 @@
 " Filename: autoload/qfedit.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2024/02/20 14:53:39.
+" Last Change: 2024/10/10 20:02:41.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -13,6 +13,7 @@ function! qfedit#new() abort
     return
   endif
   let b:qfedit_items = qfedit#items(qfedit#getlist())
+  let b:qfedit_dir = getcwd()
   augroup qfedit-textchanged
     autocmd! * <buffer>
     autocmd TextChanged <buffer> call qfedit#change()
@@ -111,9 +112,6 @@ function! qfedit#change() abort
 endfunction
 
 function! qfedit#restore() abort
-  if !has_key(b:, 'qfedit_items')
-    let b:qfedit_items = {}
-  endif
   if b:qfedit_lastline[0] < line('$')
         \ && b:qfedit_lastline[1] ==# getline(b:qfedit_lastline[0])
     call extend(b:qfedit_items,
@@ -125,7 +123,13 @@ function! qfedit#restore() abort
       call add(list, b:qfedit_items[line])
     endif
   endfor
-  call qfedit#setlist(list)
+  let dir = getcwd()
+  try
+    lcd `=b:qfedit_dir`
+    call qfedit#setlist(list)
+  finally
+    lcd `=dir`
+  endtry
   let b:qfedit_lastline = [line('$'), getline('$')]
 endfunction
 
