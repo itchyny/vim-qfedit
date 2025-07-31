@@ -119,8 +119,8 @@ function! qfedit#restore() abort
           \ qfedit#items(qfedit#getlist()[b:qfedit_lastline[0]:]))
   endif
   let list = []
-  for line in map(getline(1, '$'), 'v:val[:1023]')
-    let line = substitute(line, '^[^|]\+', '\=substitute(simplify(submatch(0)), "^\\V./", "", "")', '')
+  for line in getline(1, '$')
+    let line = substitute(line, '^[^|]\+', '\=substitute(simplify(submatch(0)), "^\\V./", "", "")', '')[:1023]
     if has_key(b:qfedit_items, line)
       call add(list, b:qfedit_items[line])
     endif
